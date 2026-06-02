@@ -507,7 +507,9 @@
                 <div class="footer-section footer-brand">
                     <div class="footer-logo">
                         <div class="logo-img-wrapper">
-                            <img src="/static/images/logo.jpg" alt="Faith Legal Nepal Logo" class="logo-img">
+                            <img src="{{ url_for('static', filename='images/logo.jpg') }}"
+                                alt="Faith Legal Nepal Logo"
+                                class="logo-img">
                         </div>
                         <div class="logo-text">
                             <span class="logo-name">Faith Legal Nepal</span>
