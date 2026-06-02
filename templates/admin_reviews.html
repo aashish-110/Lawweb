@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews Management - Faith Legal Nepal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Modern Design Tokens & Variables */
+        :root {
+            --primary: #1e293b;       /* Deep corporate slate */
+            --primary-light: #334155;
+            --accent: #b45309;        /* Sophisticated legal gold/amber */
+            --accent-gradient: linear-gradient(135deg, #d97706, #b45309);
+            --bg-body: #f8fafc;       /* Clean off-white */
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            
+            /* Status Colors */
+            --success: #16a34a;
+            --success-bg: #f0fdf4;
+            --warning: #d97706;
+            --warning-bg: #fef3c7;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            
+            /* System Constants */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --transition: all 0.25s ease;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 40px;
+        }
+
+        /* Premium Dashboard Header */
+        .dashboard-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.25rem 2rem;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img-wrapper {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-tagline {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-badge {
+            background: var(--accent-gradient);
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Core Layout Grid */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Flash Message Alerts */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-success { background-color: var(--success-bg); color: var(--success); border: 1px solid #bbf7d0; }
+        .alert-info { background-color: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+        .alert-danger { background-color: var(--danger-bg); color: var(--danger); border: 1px solid #fecaca; }
+
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Dashboard Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.total { background: #eff6ff; color: #2563eb; }
+        .stat-icon.pending { background: var(--warning-bg); color: var(--warning); }
+        .stat-icon.approved { background: var(--success-bg); color: var(--success); }
+
+        .stat-info h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .stat-info p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Modern Data Table Content Block */
+        .contacts-section {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #fafafa;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.925rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary-light);
+            font-weight: 600;
+            padding: 1rem 1.25rem;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+            color: #334155;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* Review Element Sub-components */
+        .review-name-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .featured-badge {
+            align-self: flex-start;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            box-shadow: 0 2px 4px rgba(180, 83, 9, 0.2);
+        }
+
+        .rating-stars {
+            color: #f59e0b;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+        
+        .rating-stars .far {
+            color: #cbd5e1;
+        }
+
+        .review-text-cell {
+            max-width: 320px;
+            line-height: 1.45;
+            color: #475569;
+        }
+
+        .review-date {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        /* Status Pills */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .status-pending { background-color: var(--warning-bg); color: var(--warning); }
+        .status-approved { background-color: var(--success-bg); color: var(--success); }
+        .status-rejected { background-color: var(--danger-bg); color: var(--danger); }
+
+        /* Button Ecosystem */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .btn-logout {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-logout:hover { background-color: #dc2626; }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+        }
+
+        .btn-approve { background-color: var(--success); color: white; }
+        .btn-approve:hover { background-color: #15803d; transform: translateY(-1px); }
+
+        .btn-reject { background-color: #64748b; color: white; }
+        .btn-reject:hover { background-color: #475569; transform: translateY(-1px); }
+
+        .btn-feature { 
+            background-color: #ffffff; 
+            color: #b45309; 
+            border: 1px solid #f59e0b;
+        }
+        .btn-feature:hover { 
+            background-color: #fffbeb;
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background-color: #fff5f5;
+            color: var(--danger);
+            border: 1px solid #fecaca;
+        }
+        .btn-delete:hover {
+            background-color: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        /* Empty State */
+        .no-contacts {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .no-contacts i {
+            font-size: 3rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .no-contacts h3 {
+            color: var(--text-main);
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-sm {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-header">
+        <div class="header-container">
+            <div class="dashboard-title">
+                <div class="logo-section">
+                    <div class="logo-img-wrapper">
+                        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">Faith Legal Nepal</span>
+                        <span class="logo-tagline">Integrity • Service • Justice</span>
+                    </div>
+                </div>
+                <div class="admin-badge">
+                    <i class="fas fa-gavel"></i> Reviews Portal
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+                <div class="user-info">
+                    <i class="fas fa-user-shield"></i>
+                    <span>{{ current_user.username }}</span>
+                </div>
+                <a href="{{ url_for('admin_logout') }}" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Log Out
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <i class="fas fa-{{ 'check-circle' if category == 'success' else 'info-circle' }}"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>{{ total_reviews }}</h3>
+                    <p>Total Submissions</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>{{ pending_reviews }}</h3>
+                    <p>Pending Review</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon approved">
+                    <i class="fas fa-shield-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>{{ approved_reviews }}</h3>
+                    <p>Live & Approved</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contacts-section">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-comments-alt"></i>
+                    Client Feedback Management
+                </h2>
+            </div>
+
+            <div class="table-container">
+                {% if reviews %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th>Client Details</th>
+                                <th>Rating</th>
+                                <th>Service Area</th>
+                                <th>Review Message</th>
+                                <th>Submission Date</th>
+                                <th>Status</th>
+                                <th style="text-align: right; padding-right: 1.5rem;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for review in reviews %}
+                                <tr>
+                                    <td><span style="color: var(--text-muted); font-weight: 600;">#{{ review.id }}</span></td>
+                                    <td>
+                                        <div class="review-name-container">
+                                            <span class="review-author">{{ review.name }}</span>
+                                            {% if review.is_featured %}
+                                                <span class="featured-badge"><i class="fas fa-award"></i> Featured</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="rating-stars" title="{{ review.rating }} out of 5 stars">
+                                            {% for i in range(1, 6) %}
+                                                {% if i <= review.rating %}
+                                                    <i class="fas fa-star"></i>
+                                                {% else %}
+                                                    <i class="far fa-star"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span style="font-weight: 500; color: var(--primary-light);">{{ review.service }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="review-text-cell">
+                                            {{ review.message[:100] }}{{ '...' if review.message|length > 100 else '' }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="review-date">{{ review.created_at.strftime('%b %d, %Y') }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-{{ review.status.lower() }}">
+                                            {{ review.status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons" style="justify-content: flex-end;">
+                                            {% if review.status == 'Pending' %}
+                                                <form method="POST" action="{{ url_for('approve_review', review_id=review.id) }}" style="display: inline;">
+                                                    <button type="submit" class="btn btn-sm btn-approve" title="Approve and Publish">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </form>
+                                                <form method="POST" action="{{ url_for('reject_review', review_id=review.id) }}" style="display: inline;">
+                                                    <button type="submit" class="btn btn-sm btn-reject" title="Reject Review">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                            
+                                            {% if review.status == 'Approved' %}
+                                                <form method="POST" action="{{ url_for('feature_review', review_id=review.id) }}" style="display: inline;">
+                                                    <button type="submit" class="btn btn-sm btn-feature" title="{{ 'Remove Highlight' if review.is_featured else 'Highlight on Landing Page' }}">
+                                                        <i class="fas fa-star"></i> {{ 'Unfeature' if review.is_featured else 'Feature' }}
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                            
+                                            <form method="POST" action="{{ url_for('delete_review', review_id=review.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to permanently delete this entry?')">
+                                                <button type="submit" class="btn btn-sm btn-delete" title="Delete Entry">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-contacts">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>No feedback submissions found</h3>
+                        <p>When clients leave a review on your primary site, they will automatically appear here for evaluation.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faith Legal Nepal - Court Marriage & Divorce Services</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <div class="logo-img-wrapper">
+                        <img src="/static/images/logo.jpg" alt="Faith Legal Nepal Logo" class="logo-img">
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">Faith Legal Nepal</span>
+                        <span class="logo-tagline">Integrity &bull; Service &bull; Justice</span>
+                    </div>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#process" class="nav-link">Process</a></li>
+                    <li><a href="#reviews" class="nav-link">Reviews</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Fixed Right Side Contact Bar -->
+    <div class="fixed-right-bar">
+        <a href="tel:+977XXXXXXXXX" class="contact-item phone" title="Call Us">
+            <i class="fas fa-phone-alt"></i>
+            <span class="contact-text">+977-XXXXXXXXX</span>
+        </a>
+        
+        <a href="https://wa.me/977XXXXXXXXX" target="_blank" class="contact-item whatsapp" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="contact-text">Chat on WhatsApp</span>
+        </a>
+        
+        <a href="mailto:info@faithlegalnepal.com" class="contact-item gmail" title="Email Us">
+            <i class="fas fa-envelope"></i>
+            <span class="contact-text">info@faithlegalnepal.com</span>
+        </a>
+        
+        <a href="#contact" class="contact-item consultation" title="Free Consultation">
+            <i class="fas fa-user-tie"></i>
+            <span class="contact-text">Free Consultation</span>
+        </a>
+    </div>
+
+    <!-- Hero Section with Video -->
+    <section id="home" class="hero">
+        <div class="hero-video-container">
+            <video class="hero-video active" autoplay muted loop playsinline>
+                <source src="/static/videos/video1.mp4" type="video/mp4">
+            </video>
+            <video class="hero-video" muted loop playsinline>
+                <source src="/static/videos/video2.mp4" type="video/mp4">
+            </video>
+            <video class="hero-video" muted loop playsinline>
+                <source src="/static/videos/video3.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container hero-content-wrapper">
+            <div class="hero-content">
+                <h1 class="fade-in">Faith Legal Nepal</h1>
+                <p class="fade-in">Professional Court Marriage & Divorce Legal Services</p>
+                <div class="hero-buttons fade-in">
+                    <a href="#contact" class="btn btn-primary">Get Consultation</a>
+                    <a href="#services" class="btn btn-secondary">Our Services</a>
+                </div>
+            </div>
+            <div class="video-controls">
+                <button class="video-dot active" data-video="0"></button>
+                <button class="video-dot" data-video="1"></button>
+                <button class="video-dot" data-video="2"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <p class="section-subtitle">Comprehensive Legal Solutions for Marriage & Divorce</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="/static/images/court.jpg" alt="Court Marriage">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-ring"></i>
+                        </div>
+                        <h3>Court Marriage</h3>
+                        <p>Complete assistance for legal court marriage registration with all documentation and procedures.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Documentation Support</li>
+                            <li><i class="fas fa-check"></i> Legal Consultation</li>
+                            <li><i class="fas fa-check"></i> Fast Processing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card featured">
+                    <div class="badge">Popular</div>
+                    <div class="service-image">
+                        <img src="/static/images/divo.jpg" alt="Mutual Divorce">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Mutual Divorce</h3>
+                        <p>Hassle-free mutual divorce proceedings with professional legal guidance and support.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Quick Settlement</li>
+                            <li><i class="fas fa-check"></i> Confidential Process</li>
+                            <li><i class="fas fa-check"></i> Complete Paperwork</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="/static/images/cont.jpg" alt="Contested Divorce">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h3>Contested Divorce</h3>
+                        <p>Expert representation for contested divorce cases with experienced legal professionals.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Court Representation</li>
+                            <li><i class="fas fa-check"></i> Legal Defense</li>
+                            <li><i class="fas fa-check"></i> Case Management</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="/static/images/ms.jpg" alt="Marriage Registration">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h3>Marriage Registration</h3>
+                        <p>Official marriage certificate registration and documentation services across Nepal.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Certificate Issuance</li>
+                            <li><i class="fas fa-check"></i> Legal Verification</li>
+                            <li><i class="fas fa-check"></i> Government Liaison</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="/static/images/family.jpg" alt="Family Counseling">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Family Counseling</h3>
+                        <p>Professional counseling services to help families navigate difficult situations.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Expert Counselors</li>
+                            <li><i class="fas fa-check"></i> Confidential Sessions</li>
+                            <li><i class="fas fa-check"></i> Mediation Services</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="/static/images/legal.jpg" alt="Legal Consultation">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Legal Consultation</h3>
+                        <p>Expert legal advice on matrimonial matters and family law in Nepal.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Free Initial Consultation</li>
+                            <li><i class="fas fa-check"></i> Expert Lawyers</li>
+                            <li><i class="fas fa-check"></i> 24/7 Support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Faith Legal Nepal</h2>
+                    <p>Faith Legal Nepal is a leading legal service provider specializing in court marriage and divorce proceedings across Nepal. With years of experience and a team of dedicated legal professionals, we ensure smooth and hassle-free legal processes for our clients.</p>
+                    
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-certificate"></i>
+                            <div>
+                                <h4>Certified Professionals</h4>
+                                <p>Licensed and experienced lawyers</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Quick Processing</h4>
+                                <p>Fast and efficient service delivery</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-lock"></i>
+                            <div>
+                                <h4>Confidential</h4>
+                                <p>Complete privacy and discretion</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <div>
+                                <h4>Affordable Rates</h4>
+                                <p>Transparent and competitive pricing</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="/static/images/faith.jpg" alt="Legal Services">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="process">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Simple Steps to Get Started</p>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Contact Us</h3>
+                    <p>Reach out via phone, email, or visit our office for initial consultation.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Consultation</h3>
+                    <p>Discuss your case with our expert lawyers and get professional advice.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Documentation</h3>
+                    <p>We help you prepare and verify all necessary legal documents.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Processing</h3>
+                    <p>We handle all legal procedures and court proceedings on your behalf.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Completion</h3>
+                    <p>Receive your legal documents and certificates with full support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <h3 class="counter" data-target="500">0</h3>
+                    <p>Happy Clients</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-briefcase"></i>
+                    <h3 class="counter" data-target="750">0</h3>
+                    <p>Cases Handled</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-award"></i>
+                    <h3 class="counter" data-target="10">0</h3>
+                    <p>Years Experience</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-star"></i>
+                    <h3 class="counter" data-target="98">0</h3>
+                    <p>Success Rate %</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+        <section id="reviews" class="reviews">
+            <div class="container">
+                <h2 class="section-title">What Our Clients Say</h2>
+                <p class="section-subtitle">Real experiences from real people</p>
+                
+                <div class="reviews-slider" id="reviewsSliderContainer">
+                    <!-- Reviews will be loaded dynamically -->
+                    <div class="review-card active" style="text-align: center; padding: 60px 20px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary-color);"></i>
+                        <p style="margin-top: 20px; color: var(--gray);">Loading reviews...</p>
+                    </div>
+                </div>
+
+                <div class="review-navigation" id="reviewNavigation" style="display: none;">
+                    <button class="review-prev" onclick="prevReview()"><i class="fas fa-chevron-left"></i></button>
+                    <div class="review-dots" id="reviewDotsContainer">
+                        <!-- Dots will be generated dynamically -->
+                    </div>
+                    <button class="review-next" onclick="nextReview()"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Find answers to common questions</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What documents are required for court marriage?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>For court marriage in Nepal, you need: Citizenship certificates of both parties, passport-size photographs, age verification documents, and in case of foreign nationals, passport and visa documents. We assist you with all documentation requirements.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How long does the court marriage process take?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The court marriage process typically takes 7-15 days from the date of application, depending on document verification and court schedule. We ensure the fastest possible processing.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is the difference between mutual and contested divorce?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Mutual divorce is when both parties agree to divorce and its terms. It's faster and less complicated. Contested divorce is when one party disagrees, requiring court intervention and legal proceedings.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How much do your services cost?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our fees vary depending on the service and case complexity. We offer competitive rates and transparent pricing. Contact us for a free consultation and detailed quote for your specific needs.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is the process confidential?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we maintain strict confidentiality for all our clients. Your personal information and case details are protected under attorney-client privilege and handled with utmost discretion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-subtitle">Get in touch for a free consultation</p>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>Kathmandu, Nepal<br>Opposite District Court</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+977-XXXXXXXXX<br>+977-XXXXXXXXX</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@faithlegalnepal.com<br>contact@faithlegalnepal.com</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Working Hours</h4>
+                            <p>Sunday - Friday: 10:00 AM - 5:00 PM<br>Saturday: Closed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" placeholder="Your Phone" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="service" name="service" required>
+                            <option value="">Select Service</option>
+                            <option value="Court Marriage">Court Marriage</option>
+                            <option value="Mutual Divorce">Mutual Divorce</option>
+                            <option value="Contested Divorce">Contested Divorce</option>
+                            <option value="Marriage Registration">Marriage Registration</option>
+                            <option value="Legal Consultation">Legal Consultation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-img-wrapper">
+                            <img src="/static/images/logo.jpg" alt="Faith Legal Nepal Logo" class="logo-img">
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-name">Faith Legal Nepal</span>
+                            <span class="logo-tagline">Integrity &bull; Service &bull; Justice</span>
+                        </div>
+                    </div>
+                    <p>Your trusted partner for court marriage and divorce legal services in Nepal. Professional, confidential, and efficient.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#reviews">Reviews</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">Court Marriage</a></li>
+                        <li><a href="#services">Mutual Divorce</a></li>
+                        <li><a href="#services">Contested Divorce</a></li>
+                        <li><a href="#services">Legal Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Leave a Review</h4>
+                    <p>Share your experience with us</p>
+                    <form class="review-form" id="reviewForm">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        
+                        <div class="star-rating">
+                            <input type="radio" name="rating" value="5" id="star5" required>
+                            <label for="star5"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" name="rating" value="4" id="star4">
+                            <label for="star4"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" name="rating" value="3" id="star3">
+                            <label for="star3"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" name="rating" value="2" id="star2">
+                            <label for="star2"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" name="rating" value="1" id="star1">
+                            <label for="star1"><i class="fas fa-star"></i></label>
+                        </div>
+                        
+                        <select name="service" required>
+                            <option value="">Select Service</option>
+                            <option value="Court Marriage">Court Marriage</option>
+                            <option value="Mutual Divorce">Mutual Divorce</option>
+                            <option value="Contested Divorce">Contested Divorce</option>
+                            <option value="Marriage Registration">Marriage Registration</option>
+                            <option value="Legal Consultation">Legal Consultation</option>
+                        </select>
+                        
+                        <textarea name="message" placeholder="Your review..." rows="3" required></textarea>
+                        
+                        <button type="submit">
+                            <i class="fas fa-paper-plane"></i> Submit Review
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Faith Legal Nepal. All rights reserved. | Designed with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="/static/js/script.js"></script>
+
+        <!-- Custom Modal for Messages -->
+    <div class="custom-modal" id="customModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-icon" id="modalIcon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="modal-title" id="modalTitle">Success!</h3>
+            <p class="modal-message" id="modalMessage">Your message has been sent successfully.</p>
+            <button class="modal-button" id="modalButton">
+                <i class="fas fa-check"></i> OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="loading-modal" id="loadingModal">
+        <div class="modal-overlay"></div>
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Sending your message...</p>
+        </div>
+    </div>
+</body>
+</html>

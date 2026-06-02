@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faith Legal Nepal</title>
+
+<style>
+    body{
+        margin:0;
+        padding:0;
+        background:#f3f4f6;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .wrapper{
+        width:100%;
+        padding:40px 15px;
+        background:#f3f4f6;
+    }
+
+    .email-container{
+        max-width:650px;
+        margin:auto;
+        background:#ffffff;
+        border-radius:18px;
+        overflow:hidden;
+        box-shadow:0 10px 35px rgba(0,0,0,0.12);
+    }
+
+    .header{
+        background:linear-gradient(135deg,#123524,#1a4d2e,#4f772d);
+        text-align:center;
+        padding:45px 20px;
+        color:#fff;
+    }
+
+    .logo{
+        width:90px;
+        height:90px;
+        border-radius:50%;
+        background:#fff;
+        margin:0 auto 18px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        overflow:hidden;
+        border:4px solid #ecf39e;
+    }
+
+    .logo img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+    }
+
+    .logo-text{
+        font-size:38px;
+    }
+
+    .header h1{
+        margin:0;
+        font-size:32px;
+        font-weight:700;
+        font-family:Georgia, serif;
+    }
+
+    .tagline{
+        margin-top:8px;
+        font-size:13px;
+        letter-spacing:3px;
+        text-transform:uppercase;
+        opacity:0.9;
+    }
+
+    .content{
+        padding:40px 35px;
+        color:#444;
+        line-height:1.8;
+    }
+
+    .greeting{
+        font-size:24px;
+        color:#1a4d2e;
+        margin-bottom:20px;
+        font-weight:bold;
+    }
+
+    .message{
+        font-size:16px;
+        margin-bottom:25px;
+    }
+
+    .details-box{
+        background:#f9fafb;
+        border-left:5px solid #1a4d2e;
+        border-radius:10px;
+        padding:25px;
+        margin:30px 0;
+    }
+
+    .details-box h3{
+        margin-top:0;
+        color:#1a4d2e;
+        margin-bottom:18px;
+    }
+
+    .detail-row{
+        margin-bottom:12px;
+    }
+
+    .detail-label{
+        font-weight:bold;
+        color:#111827;
+    }
+
+    .next-steps{
+        background:#ecf39e;
+        padding:25px;
+        border-radius:12px;
+        margin:30px 0;
+    }
+
+    .next-steps h3{
+        margin-top:0;
+        color:#1a4d2e;
+    }
+
+    .next-steps ul{
+        padding-left:20px;
+    }
+
+    .next-steps li{
+        margin-bottom:10px;
+    }
+
+    .button-wrapper{
+        text-align:center;
+        margin:35px 0;
+    }
+
+    .button{
+        display:inline-block;
+        background:#1a4d2e;
+        color:#fff !important;
+        text-decoration:none;
+        padding:15px 32px;
+        border-radius:8px;
+        font-weight:bold;
+        font-size:16px;
+    }
+
+    .button:hover{
+        background:#4f772d;
+    }
+
+    .contact-box{
+        background:#1a4d2e;
+        color:#fff;
+        border-radius:12px;
+        padding:28px;
+        margin-top:35px;
+    }
+
+    .contact-box h3{
+        margin-top:0;
+        margin-bottom:18px;
+    }
+
+    .contact-item{
+        margin-bottom:14px;
+        font-size:15px;
+    }
+
+    .social-links{
+        margin-top:25px;
+        text-align:center;
+    }
+
+    .social-links a{
+        display:inline-block;
+        width:42px;
+        height:42px;
+        line-height:42px;
+        border-radius:50%;
+        background:#4f772d;
+        color:#fff !important;
+        text-decoration:none;
+        margin:0 6px;
+        font-weight:bold;
+        font-size:16px;
+    }
+
+    .footer{
+        background:#132a13;
+        color:rgba(255,255,255,0.8);
+        text-align:center;
+        padding:22px;
+        font-size:13px;
+    }
+
+    @media only screen and (max-width:600px){
+
+        .content{
+            padding:30px 20px;
+        }
+
+        .header h1{
+            font-size:26px;
+        }
+
+        .greeting{
+            font-size:20px;
+        }
+
+    }
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<div class="email-container">
+
+    <div class="header">
+
+        <div class="logo">
+
+            <!-- OPTION 1: USE YOUR REAL LOGO -->
+            <!-- Replace with your actual hosted logo URL -->
+
+            <img src="https://yourdomain.com/static/images/logo.jpg" alt="Faith Legal Nepal">
+
+            <!-- OPTION 2: IF LOGO DOES NOT WORK USE THIS -->
+            <!-- <div class="logo-text">⚖️</div> -->
+
+        </div>
+
+        <h1>Faith Legal Nepal</h1>
+
+        <div class="tagline">
+            Integrity • Service • Justice
+        </div>
+
+    </div>
+
+    <div class="content">
+
+        <div class="greeting">
+            Dear {{ contact.name }},
+        </div>
+
+        <div class="message">
+            Thank you for contacting <strong>Faith Legal Nepal</strong>.
+            We have successfully received your inquiry and our legal team
+            will review your case shortly.
+        </div>
+
+        <div class="details-box">
+
+            <h3>📋 Submission Details</h3>
+
+            <div class="detail-row">
+                <span class="detail-label">Service:</span>
+                {{ contact.service }}
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Email:</span>
+                {{ contact.email }}
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Phone:</span>
+                {{ contact.phone }}
+            </div>
+
+        </div>
+
+        <div class="next-steps">
+
+            <h3>🔍 What Happens Next?</h3>
+
+            <ul>
+                <li>Our team reviews your inquiry within 24–48 hours</li>
+                <li>We contact you for consultation</li>
+                <li>We explain the legal process clearly</li>
+                <li>You receive transparent pricing</li>
+            </ul>
+
+        </div>
+
+        <div class="button-wrapper">
+
+            <a href="tel:+977XXXXXXXXX" class="button">
+                📞 Call Us Now
+            </a>
+
+        </div>
+
+        <div class="contact-box">
+
+            <h3>📞 Contact Information</h3>
+
+            <div class="contact-item">
+                📍 Kathmandu, Nepal
+            </div>
+
+            <div class="contact-item">
+                📞 +977-XXXXXXXXX
+            </div>
+
+            <div class="contact-item">
+                ✉️ info@faithlegalnepal.com
+            </div>
+
+            <div class="contact-item">
+                🕒 Sunday – Friday | 10 AM – 5 PM
+            </div>
+
+            <div class="social-links">
+
+                <a href="#">f</a>
+                <a href="#">in</a>
+                <a href="#">ig</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        © 2026 Faith Legal Nepal. All rights reserved.
+
+        <br><br>
+
+        This email was sent because you submitted a contact form on our website.
+
+    </div>
+
+</div>
+
+</div>
+
+</body>
+</html>
