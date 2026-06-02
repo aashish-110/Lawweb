@@ -14,6 +14,7 @@ load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
+os.makedirs('instance', exist_ok=True)
 app.config.from_object(Config)
 
 # Initialize extensions
@@ -657,10 +658,10 @@ def reset_admin():
 # RUN APPLICATION
 # ========================================
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # Initialize database on startup
-    with app.app_context():
-        init_db()
+with app.app_context():
+    init_db()
     
     # Run the app
     print("\n🚀 Starting Faith Legal Nepal Application...")
@@ -670,4 +671,4 @@ if __name__ == '__main__':
     print(f"📊 Dashboard: http://127.0.0.1:5000/admin/dashboard")
     print("\n")
     
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run()
