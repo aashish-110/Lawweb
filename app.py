@@ -261,9 +261,8 @@ def submit_contact():
         
         # Send emails (non-blocking)
         try:
-            # send_client_email(contact_data)
-            # send_admin_notification(contact_data)
-            print("Email sending temporarily disabled")
+            send_client_email(contact_data) 
+            send_admin_notification(contact_data)
         except Exception as email_error:
             print(f"⚠ Email error (non-critical): {str(email_error)}")
         
@@ -378,8 +377,7 @@ Review:
 Submitted at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 Review in admin panel: http://127.0.0.1:5000/admin/reviews
             """
-            # mail.send(msg)
-            print("Review email temporarily disabled")
+            mail.send(msg)
             print("✓ Admin notification sent")
         except Exception as e:
             print(f"⚠ Email error (non-critical): {str(e)}")
