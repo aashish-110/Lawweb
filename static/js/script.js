@@ -6,136 +6,102 @@ let currentReview = 0;
 let counterStarted = false;
 let touchStartX = 0;
 let touchEndX = 0;
-let reviewCardsArray = [];
-let reviewDotsArray = [];
-
-// ========================================
-// WAIT FOR DOM TO BE FULLY LOADED
-// ========================================
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Initializing Faith Legal Nepal...');
-
-    // Initialize all components
-    initMobileMenu();
-    initNavbarScroll();
-    initSmoothScrolling();
-    setupModalListeners();
-    initVideoSlider();
-    initCounters();
-    initFAQ();
-    initContactForm();
-    initReviewForm();
-    initNewsletterForms();
-    initFormValidation();
-    initScrollTop();
-    initAnimationOnScroll();
-    initTouchSwipe();
-    initKeyboardNavigation();
-    initParallax();
-    loadReviews();
-
-    console.log('✅ All components initialized successfully!');
-});
 
 // ========================================
 // MOBILE MENU TOGGLE
 // ========================================
-function initMobileMenu() {
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
 
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        });
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    });
 
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
-            });
+    // Close menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
         });
-        console.log('✓ Mobile menu initialized');
-    }
+    });
 }
 
 // ========================================
 // NAVBAR SCROLL EFFECT
 // ========================================
-function initNavbarScroll() {
-    const header = document.querySelector('header');
-    if (header) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-        console.log('✓ Navbar scroll initialized');
-    }
+const header = document.querySelector('header');
+
+if (header) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
 }
 
 // ========================================
 // SMOOTH SCROLLING
 // ========================================
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href === '#') return;
-            
-            const target = document.querySelector(href);
-            if (target) {
-                e.preventDefault();
-                const headerOffset = 70;
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const headerOffset = 70;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
     });
-    console.log('✓ Smooth scrolling initialized');
-}
+});
 
 // ========================================
-// CUSTOM MODAL FUNCTIONS
+// CUSTOM MODAL FUNCTIONS (FIXED)
 // ========================================
 window.showModal = function(title, message, type = 'success') {
     const modal = document.getElementById('customModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalMessage = document.getElementById('modalMessage');
     const modalIcon = document.getElementById('modalIcon');
-
+    
     if (!modal || !modalTitle || !modalMessage || !modalIcon) {
         console.error('Modal elements not found');
-        alert(title + '\n\n' + message);
+        alert(message); // Fallback to alert
         return;
     }
-
+    
+    // Set content
     modalTitle.textContent = title;
     modalMessage.textContent = message;
-
+    
+    // Remove all type classes
     modalIcon.classList.remove('success', 'error', 'warning', 'info');
+    
+    // Add appropriate class and icon
     modalIcon.classList.add(type);
-
+    
     const icons = {
         success: 'fa-check-circle',
         error: 'fa-exclamation-circle',
         warning: 'fa-exclamation-triangle',
         info: 'fa-info-circle'
     };
-
-    modalIcon.innerHTML = `<i class="fas ${icons[type] || 'fa-info-circle'}"></i>`;
+    
+    modalIcon.innerHTML = `<i class="fas ${icons[type]}"></i>`;
+    
+    // Show modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-
-    console.log(`Modal shown: [${type}] ${title}`);
+    
+    console.log(`Modal shown: ${title} - ${type}`);
 };
 
 window.hideModal = function() {
@@ -143,18 +109,19 @@ window.hideModal = function() {
     if (modal) {
         modal.classList.remove('active');
         document.body.style.overflow = '';
+        console.log('Modal hidden');
     }
 };
 
-window.showLoading = function(text = 'Please wait...') {
+window.showLoading = function(text = 'Sending your message...') {
     const loadingModal = document.getElementById('loadingModal');
-    if (loadingModal) {
-        const loadingText = loadingModal.querySelector('.loading-text');
-        if (loadingText) {
-            loadingText.textContent = text;
-        }
+    const loadingText = loadingModal ? loadingModal.querySelector('.loading-text') : null;
+    
+    if (loadingModal && loadingText) {
+        loadingText.textContent = text;
         loadingModal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        console.log('Loading modal shown');
     }
 };
 
@@ -163,94 +130,92 @@ window.hideLoading = function() {
     if (loadingModal) {
         loadingModal.classList.remove('active');
         document.body.style.overflow = '';
+        console.log('Loading modal hidden');
     }
 };
 
 // ========================================
-// MODAL EVENT LISTENERS
+// MODAL EVENT LISTENERS SETUP
 // ========================================
 function setupModalListeners() {
+    console.log('Setting up modal listeners...');
+    
+    // Modal OK button
     const modalButton = document.getElementById('modalButton');
     if (modalButton) {
         modalButton.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            console.log('Modal button clicked');
             window.hideModal();
         });
         console.log('✓ Modal button listener attached');
+    } else {
+        console.warn('⚠ Modal button not found');
     }
 
+    // Modal overlay click
     const customModal = document.getElementById('customModal');
     if (customModal) {
         customModal.addEventListener('click', function(e) {
             if (e.target === customModal || e.target.classList.contains('modal-overlay')) {
+                console.log('Modal overlay clicked');
                 window.hideModal();
             }
         });
+        console.log('✓ Modal overlay listener attached');
     }
 
+    // Prevent modal content clicks from closing
     const modalContainer = document.querySelector('.modal-container');
     if (modalContainer) {
         modalContainer.addEventListener('click', function(e) {
             e.stopPropagation();
         });
+        console.log('✓ Modal container listener attached');
     }
 
+    // ESC key to close
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             window.hideModal();
         }
     });
-
-    console.log('✓ Modal listeners setup complete');
+    console.log('✓ ESC key listener attached');
 }
 
 // ========================================
 // VIDEO SLIDER
 // ========================================
-function initVideoSlider() {
-    const videos = document.querySelectorAll('.hero-video');
-    const videoDots = document.querySelectorAll('.video-dot');
+const videos = document.querySelectorAll('.hero-video');
+const videoDots = document.querySelectorAll('.video-dot');
 
-    if (videos.length === 0) return;
-
-    // Mute videos for autoplay
-    videos.forEach(video => {
-        video.muted = true;
-        video.setAttribute('playsinline', '');
-    });
-
-    function changeVideo(index) {
-        videos.forEach((video, i) => {
-            video.classList.remove('active');
-            if (videoDots[i]) {
-                videoDots[i].classList.remove('active');
-            }
-        });
-
-        if (videos[index]) {
-            videos[index].classList.add('active');
-            if (videoDots[index]) {
-                videoDots[index].classList.add('active');
-            }
-            videos[index].play().catch(e => console.log('Video play error:', e));
+function changeVideo(index) {
+    videos.forEach((video, i) => {
+        video.classList.remove('active');
+        if (videoDots[i]) {
+            videoDots[i].classList.remove('active');
         }
-
-        // Pause others
-        videos.forEach((video, i) => {
-            if (i !== index) {
-                video.pause();
+        if (i === index) {
+            video.classList.add('active');
+            if (videoDots[i]) {
+                videoDots[i].classList.add('active');
             }
-        });
-    }
+            video.play().catch(e => console.log('Video play error:', e));
+        } else {
+            video.pause();
+        }
+    });
+}
 
-    // Auto change video every 10 seconds
+// Auto change video every 10 seconds
+if (videos.length > 0) {
     setInterval(() => {
         currentVideo = (currentVideo + 1) % videos.length;
         changeVideo(currentVideo);
     }, 10000);
 
-    // Manual control via dots
+    // Manual video control
     videoDots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             currentVideo = index;
@@ -260,39 +225,36 @@ function initVideoSlider() {
 
     // Initialize first video
     changeVideo(0);
-
-    console.log(`✓ Video slider initialized (${videos.length} videos)`);
 }
 
 // ========================================
 // COUNTER ANIMATION
 // ========================================
-function initCounters() {
-    const counters = document.querySelectorAll('.counter');
-    const statsSection = document.querySelector('.stats');
+const counters = document.querySelectorAll('.counter');
+const speed = 200;
 
-    if (!statsSection || counters.length === 0) return;
-
-    const runCounter = () => {
-        counters.forEach(counter => {
+const runCounter = () => {
+    counters.forEach(counter => {
+        const updateCount = () => {
             const target = +counter.getAttribute('data-target');
-            let count = 0;
-            const speed = 200;
+            const count = +counter.innerText;
             const inc = target / speed;
 
-            const updateCount = () => {
-                count += inc;
-                if (count < target) {
-                    counter.innerText = Math.ceil(count);
-                    setTimeout(updateCount, 1);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            updateCount();
-        });
-    };
+            if (count < target) {
+                counter.innerText = Math.ceil(count + inc);
+                setTimeout(updateCount, 1);
+            } else {
+                counter.innerText = target;
+            }
+        };
+        updateCount();
+    });
+};
 
+// Intersection Observer for Counter
+const statsSection = document.querySelector('.stats');
+
+if (statsSection) {
     const statsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !counterStarted) {
@@ -303,701 +265,347 @@ function initCounters() {
     }, { threshold: 0.5 });
 
     statsObserver.observe(statsSection);
-    console.log('✓ Counters initialized');
 }
 
 // ========================================
 // REVIEWS SLIDER
 // ========================================
+const reviewCards = document.querySelectorAll('.review-card');
+const reviewDots = document.querySelectorAll('.review-dot');
+const reviewPrev = document.querySelector('.review-prev');
+const reviewNext = document.querySelector('.review-next');
+
 function showReview(index) {
-    reviewCardsArray = document.querySelectorAll('.review-card');
-    reviewDotsArray = document.querySelectorAll('.review-dot');
-
-    reviewCardsArray.forEach((card, i) => {
+    reviewCards.forEach((card, i) => {
         card.classList.remove('active');
+        if (reviewDots[i]) {
+            reviewDots[i].classList.remove('active');
+        }
     });
-    reviewDotsArray.forEach((dot, i) => {
-        dot.classList.remove('active');
-    });
-
-    if (reviewCardsArray[index]) {
-        reviewCardsArray[index].classList.add('active');
+    
+    if (reviewCards[index]) {
+        reviewCards[index].classList.add('active');
     }
-    if (reviewDotsArray[index]) {
-        reviewDotsArray[index].classList.add('active');
+    if (reviewDots[index]) {
+        reviewDots[index].classList.add('active');
     }
 }
 
-window.nextReview = function() {
-    reviewCardsArray = document.querySelectorAll('.review-card');
-    if (reviewCardsArray.length > 0) {
-        currentReview = (currentReview + 1) % reviewCardsArray.length;
+function nextReview() {
+    if (reviewCards.length > 0) {
+        currentReview = (currentReview + 1) % reviewCards.length;
         showReview(currentReview);
     }
-};
+}
 
-window.prevReview = function() {
-    reviewCardsArray = document.querySelectorAll('.review-card');
-    if (reviewCardsArray.length > 0) {
-        currentReview = (currentReview - 1 + reviewCardsArray.length) % reviewCardsArray.length;
+function prevReview() {
+    if (reviewCards.length > 0) {
+        currentReview = (currentReview - 1 + reviewCards.length) % reviewCards.length;
         showReview(currentReview);
     }
-};
+}
+
+if (reviewNext && reviewPrev) {
+    reviewNext.addEventListener('click', nextReview);
+    reviewPrev.addEventListener('click', prevReview);
+}
+
+// Manual review dots control
+reviewDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        currentReview = index;
+        showReview(currentReview);
+    });
+});
+
+// Auto slide reviews every 5 seconds
+if (reviewCards.length > 0) {
+    setInterval(nextReview, 5000);
+    showReview(0); // Initialize first review
+}
 
 // ========================================
 // FAQ ACCORDION
 // ========================================
-function initFAQ() {
-    const faqItems = document.querySelectorAll('.faq-item');
+const faqItems = document.querySelectorAll('.faq-item');
 
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (question) {
-            question.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                faqItems.forEach(faq => faq.classList.remove('active'));
-                if (!isActive) {
-                    item.classList.add('active');
-                }
+faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    
+    if (question) {
+        question.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            
+            // Close all items
+            faqItems.forEach(faq => {
+                faq.classList.remove('active');
             });
-        }
-    });
-
-    console.log(`✓ FAQ initialized (${faqItems.length} items)`);
-}
-
-// ========================================
-// CONTACT FORM SUBMISSION - FIXED
-// ========================================
-function initContactForm() {
-    const contactForm = document.getElementById('contactForm');
-
-    if (!contactForm) {
-        console.warn('⚠ Contact form not found');
-        return;
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
     }
+});
 
-    // Remove action attribute to prevent traditional form submission
-    contactForm.removeAttribute('action');
-    contactForm.removeAttribute('method');
+// ========================================
+// CONTACT FORM SUBMISSION
+// ========================================
+const contactForm = document.getElementById('contactForm');
 
-    contactForm.addEventListener('submit', async function(e) {
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        e.stopPropagation();
-
-        console.log('📩 Contact form submitted');
-
-        // Get form values
-        const name = (document.getElementById('name') || {}).value?.trim() || '';
-        const email = (document.getElementById('email') || {}).value?.trim() || '';
-        const phone = (document.getElementById('phone') || {}).value?.trim() || '';
-        const service = (document.getElementById('service') || {}).value?.trim() || '';
-        const message = (document.getElementById('message') || {}).value?.trim() || '';
-
-        console.log('Form data:', { name, email, phone, service, message: message.substring(0, 30) });
-
-        // Validation
+        
+        console.log('Form submitted');
+        
+        // Get all form elements
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const serviceInput = document.getElementById('service');
+        const messageInput = document.getElementById('message');
+        
+        // Check if elements exist
+        if (!nameInput || !emailInput || !phoneInput || !serviceInput || !messageInput) {
+            window.showModal('Form Error', 'Please refresh the page and try again.', 'error');
+            return;
+        }
+        
+        // Get values
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const service = serviceInput.value;
+        const message = messageInput.value.trim();
+        
+        console.log('Form data:', { name, email, phone, service, message });
+        
+        // Client-side validation
         if (!name) {
-            window.showModal('Missing Information', 'Please enter your name.', 'warning');
-            document.getElementById('name')?.focus();
+            window.showModal('Missing Information', 'Please enter your name', 'warning');
+            nameInput.focus();
             return;
         }
-
+        
         if (!email) {
-            window.showModal('Missing Information', 'Please enter your email address.', 'warning');
-            document.getElementById('email')?.focus();
+            window.showModal('Missing Information', 'Please enter your email address', 'warning');
+            emailInput.focus();
             return;
         }
-
+        
+        // Email validation
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
-            window.showModal('Invalid Email', 'Please enter a valid email address.', 'error');
-            document.getElementById('email')?.focus();
+            window.showModal('Invalid Email', 'Please enter a valid email address', 'error');
+            emailInput.focus();
             return;
         }
-
+        
         if (!phone) {
-            window.showModal('Missing Information', 'Please enter your phone number.', 'warning');
-            document.getElementById('phone')?.focus();
+            window.showModal('Missing Information', 'Please enter your phone number', 'warning');
+            phoneInput.focus();
             return;
         }
-
+        
         if (!service) {
-            window.showModal('Missing Information', 'Please select a service.', 'warning');
-            document.getElementById('service')?.focus();
+            window.showModal('Missing Information', 'Please select a service', 'warning');
+            serviceInput.focus();
             return;
         }
-
+        
         if (!message) {
-            window.showModal('Missing Information', 'Please enter your message.', 'warning');
-            document.getElementById('message')?.focus();
+            window.showModal('Missing Information', 'Please enter your message', 'warning');
+            messageInput.focus();
             return;
         }
-
-        // Create FormData
+        
+        // Create FormData object
         const formData = new FormData();
         formData.append('name', name);
         formData.append('email', email);
         formData.append('phone', phone);
         formData.append('service', service);
         formData.append('message', message);
-
-        // Show loading
+        
+        // Show loading modal
         window.showLoading('Sending your message...');
-
+        
         try {
-            console.log('Sending request to /submit-contact...');
-
+            console.log('Sending request to server...');
+            
             const response = await fetch('/submit-contact', {
                 method: 'POST',
-                body: formData,
-                credentials: 'same-origin'
+                body: formData
             });
-
-            console.log('Response status:', response.status);
-            console.log('Response ok:', response.ok);
-
-            // Check if response is JSON
-            const contentType = response.headers.get('content-type');
-            console.log('Content-Type:', contentType);
-
-            let data;
-            if (contentType && contentType.includes('application/json')) {
-                data = await response.json();
-            } else {
-                const text = await response.text();
-                console.error('Non-JSON response:', text.substring(0, 200));
-                throw new Error('Server returned non-JSON response');
-            }
-
+            
+            console.log('Response received:', response.status);
+            
+            const data = await response.json();
+            
             console.log('Response data:', data);
-
+            
+            // Hide loading
             window.hideLoading();
-
+            
             if (data.success) {
-                window.showModal('Thank You! 🎉', data.message, 'success');
+                // Show success modal
+                window.showModal(
+                    'Thank You!', 
+                    data.message,
+                    'success'
+                );
+                
+                // Reset form
                 contactForm.reset();
             } else {
-                window.showModal('Submission Failed', data.message || 'An error occurred. Please try again.', 'error');
+                // Show error modal
+                window.showModal(
+                    'Submission Failed',
+                    data.message || 'An error occurred. Please try again.',
+                    'error'
+                );
             }
-
+            
         } catch (error) {
+            // Hide loading
             window.hideLoading();
-            console.error('Contact form fetch error:', error);
-            console.error('Error name:', error.name);
-            console.error('Error message:', error.message);
-
-            if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                window.showModal(
-                    'Connection Error',
-                    'Cannot connect to server. Please check if the server is running and try again.',
-                    'error'
-                );
-            } else {
-                window.showModal(
-                    'Error',
-                    'An unexpected error occurred: ' + error.message,
-                    'error'
-                );
-            }
+            
+            console.error('Fetch Error:', error);
+            window.showModal(
+                'Network Error',
+                'Please check your internet connection and try again.',
+                'error'
+            );
         }
     });
-
-    console.log('✓ Contact form initialized');
+    
+    console.log('✓ Contact form listener attached');
 }
 
 // ========================================
-// REVIEW FORM SUBMISSION - FIXED
+// NEWSLETTER FORM
 // ========================================
-function initReviewForm() {
-    const reviewForm = document.getElementById('reviewForm');
+const newsletterForms = document.querySelectorAll('.newsletter-form');
 
-    if (!reviewForm) {
-        console.warn('⚠ Review form not found');
-        return;
-    }
-
-    // Remove action attribute to prevent traditional form submission
-    reviewForm.removeAttribute('action');
-    reviewForm.removeAttribute('method');
-
-    reviewForm.addEventListener('submit', async function(e) {
+newsletterForms.forEach(form => {
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
-        e.stopPropagation();
-
-        console.log('⭐ Review form submitted');
-
-        const formData = new FormData(reviewForm);
-
-        // Get values for validation
-        const name = (formData.get('name') || '').trim();
-        const email = (formData.get('email') || '').trim();
-        const rating = formData.get('rating');
-        const service = formData.get('service') || '';
-        const message = (formData.get('message') || '').trim();
-
-        console.log('Review data:', { name, email, rating, service, message: message.substring(0, 30) });
-
-        // Validation
-        if (!name) {
-            window.showModal('Missing Information', 'Please enter your name.', 'warning');
-            return;
-        }
-
+        const emailInput = form.querySelector('input[type="email"]');
+        
+        if (!emailInput) return;
+        
+        const email = emailInput.value.trim();
+        
         if (!email) {
-            window.showModal('Missing Information', 'Please enter your email address.', 'warning');
+            window.showModal('Missing Email', 'Please enter your email address', 'warning');
             return;
         }
-
+        
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
-            window.showModal('Invalid Email', 'Please enter a valid email address.', 'error');
+            window.showModal('Invalid Email', 'Please enter a valid email address', 'error');
             return;
         }
-
-        if (!rating) {
-            window.showModal('Missing Rating', 'Please select a star rating.', 'warning');
-            return;
-        }
-
-        if (!service) {
-            window.showModal('Missing Information', 'Please select a service.', 'warning');
-            return;
-        }
-
-        if (!message) {
-            window.showModal('Missing Information', 'Please enter your review.', 'warning');
-            return;
-        }
-
-        // Show loading
-        window.showLoading('Submitting your review...');
-
-        try {
-            console.log('Sending request to /submit-review...');
-
-            const response = await fetch('/submit-review', {
-                method: 'POST',
-                body: formData,
-                credentials: 'same-origin'
-            });
-
-            console.log('Response status:', response.status);
-
-            const contentType = response.headers.get('content-type');
-            console.log('Content-Type:', contentType);
-
-            let data;
-            if (contentType && contentType.includes('application/json')) {
-                data = await response.json();
-            } else {
-                const text = await response.text();
-                console.error('Non-JSON response:', text.substring(0, 200));
-                throw new Error('Server returned non-JSON response');
-            }
-
-            console.log('Response data:', data);
-
-            window.hideLoading();
-
-            if (data.success) {
-                window.showModal('Review Submitted! ⭐', data.message, 'success');
-                reviewForm.reset();
-            } else {
-                window.showModal('Submission Failed', data.message || 'An error occurred. Please try again.', 'error');
-            }
-
-        } catch (error) {
-            window.hideLoading();
-            console.error('Review form fetch error:', error);
-
-            if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                window.showModal(
-                    'Connection Error',
-                    'Cannot connect to server. Please check if the server is running and try again.',
-                    'error'
-                );
-            } else {
-                window.showModal(
-                    'Error',
-                    'An unexpected error occurred: ' + error.message,
-                    'error'
-                );
-            }
-        }
+        
+        window.showModal(
+            'Subscribed!',
+            `Thank you for subscribing with ${email}! You'll receive our latest updates.`,
+            'success'
+        );
+        form.reset();
     });
-
-    console.log('✓ Review form initialized');
-}
-
-// ========================================
-// LOAD REVIEWS FROM SERVER
-// ========================================
-async function loadReviews() {
-    const reviewsContainer = document.querySelector('.reviews-slider');
-    const dotsContainer = document.getElementById('reviewDotsContainer');
-    const navigation = document.getElementById('reviewNavigation');
-
-    if (!reviewsContainer) {
-        console.warn('⚠ Reviews slider container not found');
-        return;
-    }
-
-    try {
-        console.log('Loading reviews from server...');
-
-        const response = await fetch('/get-reviews', {
-            method: 'GET',
-            credentials: 'same-origin'
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(`Loaded ${data.reviews ? data.reviews.length : 0} reviews`);
-
-        if (data.success && data.reviews && data.reviews.length > 0) {
-            // Clear container
-            reviewsContainer.innerHTML = '';
-            if (dotsContainer) dotsContainer.innerHTML = '';
-
-            data.reviews.forEach((review, index) => {
-                // Create review card
-                const reviewCard = document.createElement('div');
-                reviewCard.className = `review-card ${index === 0 ? 'active' : ''}`;
-
-                // Generate stars HTML
-                let starsHTML = '';
-                for (let i = 1; i <= 5; i++) {
-                    if (i <= review.rating) {
-                        starsHTML += '<i class="fas fa-star"></i>';
-                    } else {
-                        starsHTML += '<i class="far fa-star"></i>';
-                    }
-                }
-
-                // Safe avatar (use initials as fallback)
-                const initials = review.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-                const avatarNum = (index % 70) + 1;
-
-                reviewCard.innerHTML = `
-                    <div class="review-header">
-                        <img src="https://i.pravatar.cc/100?img=${avatarNum}" 
-                             alt="${review.name}" 
-                             class="review-avatar"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="review-avatar-fallback" style="display:none; width:60px; height:60px; border-radius:50%; background:var(--primary-color); color:white; align-items:center; justify-content:center; font-size:1.2rem; font-weight:bold;">${initials}</div>
-                        <div class="review-info">
-                            <h4>${escapeHtml(review.name)}</h4>
-                            <div class="review-stars">${starsHTML}</div>
-                        </div>
-                    </div>
-                    <p class="review-text">"${escapeHtml(review.message)}"</p>
-                    <span class="review-service">${escapeHtml(review.service)}</span>
-                    ${review.is_featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>' : ''}
-                    <small style="color: var(--gray); display: block; margin-top: 10px;">${review.created_at}</small>
-                `;
-
-                reviewsContainer.appendChild(reviewCard);
-
-                // Create navigation dot
-                if (dotsContainer) {
-                    const dot = document.createElement('span');
-                    dot.className = `review-dot ${index === 0 ? 'active' : ''}`;
-                    dot.setAttribute('data-slide', index);
-                    dot.addEventListener('click', () => {
-                        currentReview = index;
-                        showReview(currentReview);
-                    });
-                    dotsContainer.appendChild(dot);
-                }
-            });
-
-            // Show navigation if more than 1 review
-            if (navigation && data.reviews.length > 1) {
-                navigation.style.display = 'flex';
-
-                // Setup navigation buttons
-                const prevBtn = navigation.querySelector('.review-prev');
-                const nextBtn = navigation.querySelector('.review-next');
-
-                if (prevBtn) {
-                    prevBtn.onclick = window.prevReview;
-                }
-                if (nextBtn) {
-                    nextBtn.onclick = window.nextReview;
-                }
-            }
-
-            // Auto slide
-            if (data.reviews.length > 1) {
-                setInterval(window.nextReview, 5000);
-            }
-
-            console.log(`✓ ${data.reviews.length} reviews loaded successfully`);
-
-        } else {
-            // No reviews
-            reviewsContainer.innerHTML = `
-                <div class="review-card active" style="text-align: center; padding: 60px 20px;">
-                    <i class="fas fa-comments" style="font-size: 4rem; color: #ddd; margin-bottom: 20px;"></i>
-                    <h3 style="color: var(--dark-color); margin-bottom: 10px;">No Reviews Yet</h3>
-                    <p style="color: var(--gray);">Be the first to share your experience with us!</p>
-                </div>
-            `;
-            console.log('No approved reviews found');
-        }
-
-    } catch (error) {
-        console.error('Error loading reviews:', error);
-        if (reviewsContainer) {
-            reviewsContainer.innerHTML = `
-                <div class="review-card active" style="text-align: center; padding: 60px 20px;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #f5576c; margin-bottom: 20px;"></i>
-                    <p style="color: var(--gray);">Unable to load reviews. Please refresh the page.</p>
-                </div>
-            `;
-        }
-    }
-}
-
-// ========================================
-// HELPER - ESCAPE HTML
-// ========================================
-function escapeHtml(text) {
-    if (!text) return '';
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, m => map[m]);
-}
-
-// ========================================
-// NEWSLETTER FORMS
-// ========================================
-function initNewsletterForms() {
-    const newsletterForms = document.querySelectorAll('.newsletter-form');
-
-    newsletterForms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const emailInput = form.querySelector('input[type="email"]');
-            if (!emailInput) return;
-
-            const email = emailInput.value.trim();
-
-            if (!email) {
-                window.showModal('Missing Email', 'Please enter your email address.', 'warning');
-                return;
-            }
-
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                window.showModal('Invalid Email', 'Please enter a valid email address.', 'error');
-                return;
-            }
-
-            window.showModal(
-                'Subscribed! 🎉',
-                `Thank you for subscribing with ${email}! You'll receive our latest updates.`,
-                'success'
-            );
-            form.reset();
-        });
-    });
-
-    console.log(`✓ Newsletter forms initialized (${newsletterForms.length})`);
-}
+});
 
 // ========================================
 // FORM VALIDATION FEEDBACK
 // ========================================
-function initFormValidation() {
-    const formInputs = document.querySelectorAll('.contact-form input, .contact-form select, .contact-form textarea');
+const formInputs = document.querySelectorAll('.contact-form input, .contact-form select, .contact-form textarea');
 
-    formInputs.forEach(input => {
-        input.addEventListener('blur', () => {
-            if (input.value.trim() === '' && input.hasAttribute('required')) {
-                input.style.borderColor = '#e74c3c';
-            } else {
-                input.style.borderColor = '#ddd';
-            }
-        });
-
-        input.addEventListener('focus', () => {
-            input.style.borderColor = 'var(--primary-color)';
-        });
+formInputs.forEach(input => {
+    input.addEventListener('blur', () => {
+        if (input.value.trim() === '' && input.hasAttribute('required')) {
+            input.style.borderColor = '#e74c3c';
+        } else {
+            input.style.borderColor = '#ddd';
+        }
     });
 
-    // Email validation
-    const contactEmailInput = document.getElementById('email');
-    if (contactEmailInput) {
-        contactEmailInput.addEventListener('blur', () => {
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (contactEmailInput.value && !emailPattern.test(contactEmailInput.value)) {
-                contactEmailInput.style.borderColor = '#e74c3c';
-            }
-        });
-    }
+    input.addEventListener('focus', () => {
+        input.style.borderColor = 'var(--primary-color)';
+    });
+});
 
-    // Phone - numbers only
-    const contactPhoneInput = document.getElementById('phone');
-    if (contactPhoneInput) {
-        contactPhoneInput.addEventListener('input', () => {
-            contactPhoneInput.value = contactPhoneInput.value.replace(/[^0-9+\-\s]/g, '');
-        });
-    }
+// Email validation for contact form
+const contactEmailInput = document.getElementById('email');
+if (contactEmailInput) {
+    contactEmailInput.addEventListener('blur', () => {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(contactEmailInput.value) && contactEmailInput.value !== '') {
+            contactEmailInput.style.borderColor = '#e74c3c';
+        }
+    });
+}
 
-    console.log('✓ Form validation initialized');
+// Phone validation
+const contactPhoneInput = document.getElementById('phone');
+if (contactPhoneInput) {
+    contactPhoneInput.addEventListener('input', () => {
+        // Allow only numbers, +, -, and spaces
+        contactPhoneInput.value = contactPhoneInput.value.replace(/[^0-9+\-\s]/g, '');
+    });
 }
 
 // ========================================
 // SCROLL TO TOP BUTTON
 // ========================================
-function initScrollTop() {
-    const scrollTopBtn = document.getElementById('scrollTop');
+const scrollTopBtn = document.getElementById('scrollTop');
 
-    if (scrollTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollTopBtn.classList.add('show');
-            } else {
-                scrollTopBtn.classList.remove('show');
-            }
+if (scrollTopBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add('show');
+        } else {
+            scrollTopBtn.classList.remove('show');
+        }
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
-
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        console.log('✓ Scroll top button initialized');
-    }
+    });
 }
 
 // ========================================
 // ANIMATION ON SCROLL
 // ========================================
-function initAnimationOnScroll() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.service-card, .step, .stat-item').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-
-    // Active navigation highlight
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    window.addEventListener('scroll', () => {
-        let scrollY = window.pageYOffset;
-        sections.forEach(section => {
-            const sectionHeight = section.offsetHeight;
-            const sectionTop = section.offsetTop - 100;
-            const sectionId = section.getAttribute('id');
-
-            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    });
-
-    console.log('✓ Scroll animations initialized');
-}
-
-// ========================================
-// TOUCH SWIPE FOR REVIEWS
-// ========================================
-function initTouchSwipe() {
-    const reviewsSlider = document.querySelector('.reviews-slider');
-
-    if (reviewsSlider) {
-        reviewsSlider.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        reviewsSlider.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-
-            if (touchEndX < touchStartX - 50) {
-                window.nextReview();
-            } else if (touchEndX > touchStartX + 50) {
-                window.prevReview();
-            }
-        }, { passive: true });
-
-        console.log('✓ Touch swipe initialized');
-    }
-}
-
-// ========================================
-// KEYBOARD NAVIGATION
-// ========================================
-function initKeyboardNavigation() {
-    document.addEventListener('keydown', (e) => {
-        const activeElement = document.activeElement;
-        const isInputFocused = activeElement.tagName === 'INPUT' ||
-            activeElement.tagName === 'TEXTAREA' ||
-            activeElement.tagName === 'SELECT';
-
-        if (!isInputFocused) {
-            if (e.key === 'ArrowLeft') {
-                window.prevReview();
-            } else if (e.key === 'ArrowRight') {
-                window.nextReview();
-            }
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
         }
     });
+}, observerOptions);
 
-    console.log('✓ Keyboard navigation initialized');
-}
-
-// ========================================
-// PARALLAX EFFECT
-// ========================================
-function initParallax() {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const heroVideos = document.querySelectorAll('.hero-video');
-
-        heroVideos.forEach(video => {
-            if (scrolled < window.innerHeight) {
-                video.style.transform = `translate(-50%, calc(-50% + ${scrolled * 0.3}px))`;
-            }
-        });
-    }, { passive: true });
-
-    console.log('✓ Parallax initialized');
-}
+// Observe all service cards and other elements
+document.querySelectorAll('.service-card, .step, .stat-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+});
 
 // ========================================
-// PAGE LOAD FADE IN
+// LOADING ANIMATION
 // ========================================
 window.addEventListener('load', () => {
     document.body.style.opacity = '0';
@@ -1010,9 +618,144 @@ window.addEventListener('load', () => {
 // ========================================
 // PREVENT RIGHT-CLICK ON LOGO
 // ========================================
-document.querySelectorAll('.logo-img').forEach(logo => {
-    logo.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
+const logoImages = document.querySelectorAll('.logo-img');
+logoImages.forEach(logo => {
+    if (logo) {
+        logo.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+    }
+});
+
+// ========================================
+// LAZY LOAD VIDEOS
+// ========================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Mute videos for autoplay
+    videos.forEach(video => {
+        video.muted = true;
+        video.setAttribute('playsinline', '');
+    });
+});
+
+// ========================================
+// TOUCH SWIPE FOR MOBILE (Reviews)
+// ========================================
+const reviewsSlider = document.querySelector('.reviews-slider');
+
+if (reviewsSlider) {
+    reviewsSlider.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    reviewsSlider.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        if (touchEndX < touchStartX - 50) {
+            // Swipe left - next review
+            nextReview();
+        }
+        if (touchEndX > touchStartX + 50) {
+            // Swipe right - previous review
+            prevReview();
+        }
+    }
+}
+
+// ========================================
+// ACTIVE NAVIGATION HIGHLIGHT
+// ========================================
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+function highlightNavigation() {
+    let scrollY = window.pageYOffset;
+
+    sections.forEach(section => {
+        const sectionHeight = section.offsetHeight;
+        const sectionTop = section.offsetTop - 100;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${sectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+}
+
+window.addEventListener('scroll', highlightNavigation);
+
+// ========================================
+// PARALLAX EFFECT FOR HERO
+// ========================================
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const heroVideos = document.querySelectorAll('.hero-video');
+    
+    heroVideos.forEach(video => {
+        if (scrolled < window.innerHeight) {
+            video.style.transform = `translate(-50%, calc(-50% + ${scrolled * 0.5}px))`;
+        }
+    });
+});
+
+// ========================================
+// PRELOAD NEXT VIDEO
+// ========================================
+function preloadNextVideo() {
+    if (videos.length > 0) {
+        const nextIndex = (currentVideo + 1) % videos.length;
+        if (videos[nextIndex]) {
+            videos[nextIndex].load();
+        }
+    }
+}
+
+if (videos.length > 0) {
+    videos.forEach((video, index) => {
+        video.addEventListener('loadeddata', () => {
+            if (index === currentVideo) {
+                preloadNextVideo();
+            }
+        });
+    });
+}
+
+// ========================================
+// KEYBOARD NAVIGATION FOR REVIEWS
+// ========================================
+document.addEventListener('keydown', (e) => {
+    const activeElement = document.activeElement;
+    const isInputFocused = activeElement.tagName === 'INPUT' || 
+                          activeElement.tagName === 'TEXTAREA' || 
+                          activeElement.tagName === 'SELECT';
+    
+    if (!isInputFocused) {
+        if (e.key === 'ArrowLeft') {
+            prevReview();
+        } else if (e.key === 'ArrowRight') {
+            nextReview();
+        }
+    }
+});
+
+// ========================================
+// ERROR HANDLING FOR VIDEOS
+// ========================================
+videos.forEach((video, index) => {
+    video.addEventListener('error', (e) => {
+        console.error(`Error loading video ${index + 1}:`, e);
+        // Hide video controls if video fails to load
+        if (videoDots[index]) {
+            videoDots[index].style.display = 'none';
+        }
     });
 });
 
@@ -1021,3 +764,193 @@ document.querySelectorAll('.logo-img').forEach(logo => {
 // ========================================
 console.log('%c👋 Welcome to Faith Legal Nepal!', 'color: #1a4d2e; font-size: 20px; font-weight: bold;');
 console.log('%cDeveloped with ❤️', 'color: #4f772d; font-size: 14px;');
+
+// ========================================
+// INITIALIZE ALL COMPONENTS
+// ========================================
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 Initializing Faith Legal Nepal...');
+    
+    // Setup modal listeners
+    setupModalListeners();
+    
+    // Check if all required elements exist
+    const requiredElements = [
+        { name: 'Header', element: header },
+        { name: 'Navigation Menu', element: navMenu },
+        { name: 'Contact Form', element: contactForm },
+        { name: 'Scroll Top Button', element: scrollTopBtn },
+        { name: 'Custom Modal', element: document.getElementById('customModal') },
+        { name: 'Loading Modal', element: document.getElementById('loadingModal') },
+        { name: 'Modal Button', element: document.getElementById('modalButton') }
+    ];
+
+    let allElementsFound = true;
+    
+    requiredElements.forEach(item => {
+        if (!item.element) {
+            console.warn(`⚠️ Warning: ${item.name} not found!`);
+            allElementsFound = false;
+        } else {
+            console.log(`✓ ${item.name} loaded`);
+        }
+    });
+    
+    // Log statistics
+    console.log(`\n📊 Component Statistics:`);
+    console.log(`   Videos: ${videos.length}`);
+    console.log(`   Reviews: ${reviewCards.length}`);
+    console.log(`   FAQ Items: ${faqItems.length}`);
+    console.log(`   Stats Counters: ${counters.length}`);
+    console.log(`   Newsletter Forms: ${newsletterForms.length}`);
+    
+    if (allElementsFound) {
+        console.log('\n✅ All components initialized successfully!');
+    } else {
+        console.log('\n⚠️ Some components missing - check warnings above');
+    }
+    
+    console.log('\n🎉 Faith Legal Nepal is ready!');
+});
+
+// ========================================
+// Reviews
+// ========================================
+async function loadReviews() {
+    try {
+        const response = await fetch('/get-reviews');
+        const data = await response.json();
+        
+        if (data.success && data.reviews.length > 0) {
+            const reviewsContainer = document.querySelector('.reviews-slider');
+            const dotsContainer = document.getElementById('reviewDotsContainer');
+            const navigation = document.getElementById('reviewNavigation');
+            
+            // Clear loading message
+            reviewsContainer.innerHTML = '';
+            dotsContainer.innerHTML = '';
+            
+            // Create review cards
+            data.reviews.forEach((review, index) => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = `review-card ${index === 0 ? 'active' : ''}`;
+                
+                // Generate stars
+                let starsHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    if (i < review.rating) {
+                        starsHTML += '<i class="fas fa-star"></i>';
+                    } else {
+                        starsHTML += '<i class="far fa-star"></i>';
+                    }
+                }
+                
+                // Generate avatar URL
+                const avatarUrl = `https://i.pravatar.cc/100?img=${Math.floor(Math.random() * 70) + 1}`;
+                
+                reviewCard.innerHTML = `
+                    <div class="review-header">
+                        <img src="${avatarUrl}" alt="${review.name}" class="review-avatar">
+                        <div class="review-info">
+                            <h4>${review.name}</h4>
+                            <div class="review-stars">${starsHTML}</div>
+                        </div>
+                    </div>
+                    <p class="review-text">"${review.message}"</p>
+                    <span class="review-service">${review.service}</span>
+                    ${review.is_featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>' : ''}
+                `;
+                
+                reviewsContainer.appendChild(reviewCard);
+                
+                // Create dot
+                const dot = document.createElement('span');
+                dot.className = `review-dot ${index === 0 ? 'active' : ''}`;
+                dot.setAttribute('data-slide', index);
+                dot.addEventListener('click', () => {
+                    currentReview = index;
+                    showReview(currentReview);
+                });
+                dotsContainer.appendChild(dot);
+            });
+            
+            // Show navigation
+            navigation.style.display = 'flex';
+            
+            // Update global variables
+            window.reviewCards = document.querySelectorAll('.review-card');
+            window.reviewDots = document.querySelectorAll('.review-dot');
+            
+            console.log(`✓ Loaded ${data.reviews.length} approved reviews`);
+        } else {
+            // No reviews yet
+            const reviewsContainer = document.querySelector('.reviews-slider');
+            reviewsContainer.innerHTML = `
+                <div class="review-card active" style="text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-comments" style="font-size: 4rem; color: #ddd; margin-bottom: 20px;"></i>
+                    <h3 style="color: var(--dark-color); margin-bottom: 10px;">No reviews yet</h3>
+                    <p style="color: var(--gray);">Be the first to leave a review!</p>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Error loading reviews:', error);
+        const reviewsContainer = document.querySelector('.reviews-slider');
+        reviewsContainer.innerHTML = `
+            <div class="review-card active" style="text-align: center; padding: 60px 20px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #f5576c; margin-bottom: 20px;"></i>
+                <p style="color: var(--gray);">Error loading reviews. Please try again later.</p>
+            </div>
+        `;
+    }
+}
+
+// ========================================
+// REVIEW FORM SUBMISSION
+// ========================================
+const reviewForm = document.getElementById('reviewForm');
+
+if (reviewForm) {
+    reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(reviewForm);
+        
+        // Validate rating
+        const rating = formData.get('rating');
+        if (!rating) {
+            window.showModal('Missing Rating', 'Please select a star rating', 'warning');
+            return;
+        }
+        
+        // Show loading
+        window.showLoading('Submitting your review...');
+        
+        try {
+            const response = await fetch('/submit-review', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            window.hideLoading();
+            
+            if (data.success) {
+                window.showModal('Review Submitted!', data.message, 'success');
+                reviewForm.reset();
+            } else {
+                window.showModal('Submission Failed', data.message, 'error');
+            }
+        } catch (error) {
+            window.hideLoading();
+            console.error('Error submitting review:', error);
+            window.showModal('Network Error', 'Please try again later.', 'error');
+        }
+    });
+}
+
+// Load reviews when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadReviews();
+});
