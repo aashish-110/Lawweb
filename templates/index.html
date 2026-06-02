@@ -14,7 +14,9 @@
             <div class="container">
                 <div class="logo">
                     <div class="logo-img-wrapper">
-                        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo">
+                        <img src="{{ url_for('static', filename='images/logo.jpg') }}" 
+                            alt="Faith Legal Nepal Logo"
+                            class="logo-img">
                     </div>
                     <div class="logo-text">
                         <span class="logo-name">Faith Legal Nepal</span>
@@ -251,7 +253,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="/static/images/faith.jpg" alt="Legal Services">
+                    <img src="{{ url_for('static', filename='images/faith.jpg') }}" alt="Legal Services">
                 </div>
             </div>
         </div>
