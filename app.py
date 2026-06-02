@@ -660,7 +660,8 @@ def reset_admin():
     # Initialize database on startup
 with app.app_context():
     init_db()
-    
+
+if __name__ == '__main__':
     # Run the app
     print("\n🚀 Starting Faith Legal Nepal Application...")
     print(f"📍 Admin Panel: http://127.0.0.1:5000/admin/login")
@@ -669,4 +670,4 @@ with app.app_context():
     print(f"📊 Dashboard: http://127.0.0.1:5000/admin/dashboard")
     print("\n")
     
-    app.run()
+    app.run(debug=True)
