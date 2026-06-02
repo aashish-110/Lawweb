@@ -350,7 +350,7 @@ faqItems.forEach(item => {
 });
 
 // ========================================
-// CONTACT FORM SUBMISSION
+// CONTACT FORM SUBMISSION (FIXED)
 // ========================================
 const contactForm = document.getElementById('contactForm');
 
@@ -437,12 +437,24 @@ if (contactForm) {
             
             const response = await fetch('/submit-contact', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
             });
             
-            console.log('Response received:', response.status);
+            console.log('Response received:', response.status, response.statusText);
             
-            const data = await response.json();
+            // Try to parse response as JSON
+            let data;
+            try {
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                data = JSON.parse(responseText);
+            } catch (parseError) {
+                console.error('JSON Parse Error:', parseError);
+                throw new Error('Server returned invalid response. Please try again.');
+            }
             
             console.log('Response data:', data);
             
@@ -473,9 +485,11 @@ if (contactForm) {
             window.hideLoading();
             
             console.error('Fetch Error:', error);
+            
+            // Show user-friendly error
             window.showModal(
-                'Network Error',
-                'Please check your internet connection and try again.',
+                'Error',
+                error.message || 'Network error. Please check your connection and try again.',
                 'error'
             );
         }

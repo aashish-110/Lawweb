@@ -209,22 +209,17 @@ def submit_contact():
         print(f"   Service: {service}")
         
         # Validate required fields
-        missing_fields = []
-        if not name:
-            missing_fields.append('Name')
-        if not email:
-            missing_fields.append('Email')
-        if not phone:
-            missing_fields.append('Phone')
-        if not service:
-            missing_fields.append('Service')
-        if not message:
-            missing_fields.append('Message')
-        
-        if missing_fields:
+        if not all([name, email, phone, service, message]):
+            missing_fields = []
+            if not name: missing_fields.append('Name')
+            if not email: missing_fields.append('Email')
+            if not phone: missing_fields.append('Phone')
+            if not service: missing_fields.append('Service')
+            if not message: missing_fields.append('Message')
+            
             return jsonify({
                 'success': False,
-                'message': f'Please fill in the following fields: {", ".join(missing_fields)}'
+                'message': f'Please fill in: {", ".join(missing_fields)}'
             }), 400
         
         # Validate email format
@@ -245,10 +240,17 @@ def submit_contact():
         )
         
         # Save to database
-        db.session.add(contact)
-        db.session.commit()
-        
-        print(f"✓ Contact saved to database (ID: {contact.id})")
+        try:
+            db.session.add(contact)
+            db.session.commit()
+            print(f"✓ Contact saved to database (ID: {contact.id})")
+        except Exception as db_error:
+            db.session.rollback()
+            print(f"✗ Database error: {str(db_error)}")
+            return jsonify({
+                'success': False,
+                'message': 'Database error. Please try again.'
+            }), 500
         
         # Prepare contact data for emails
         contact_data = {
@@ -259,26 +261,35 @@ def submit_contact():
             'message': message
         }
         
-        # Send emails (non-blocking)
+        # Send emails (don't let email failure break the submission)
+        email_status = "not sent"
         try:
-            send_client_email(contact_data) 
-            send_admin_notification(contact_data)
+            if send_client_email(contact_data):
+                email_status = "sent to client"
+            if send_admin_notification(contact_data):
+                email_status = "sent to both"
         except Exception as email_error:
             print(f"⚠ Email error (non-critical): {str(email_error)}")
+            email_status = "failed"
         
+        # Always return success if data was saved
         return jsonify({
             'success': True,
-            'message': f'Thank you, {name}! We have received your inquiry about {service}. We will contact you soon at {email} or {phone}.'
-        })
+            'message': f'Thank you, {name}! We have received your inquiry about {service}. We will contact you soon at {email} or {phone}.',
+            'email_status': email_status
+        }), 200
         
     except Exception as e:
         db.session.rollback()
         print(f"✗ Error in submit_contact: {str(e)}")
         import traceback
         traceback.print_exc()
+        
+        # Always return JSON, never let Flask return HTML error page
         return jsonify({
             'success': False,
-            'message': 'An error occurred while processing your request. Please try again later.'
+            'message': 'An error occurred. Please try again later.',
+            'error': str(e) if app.debug else None
         }), 500
 
 # ========================================
