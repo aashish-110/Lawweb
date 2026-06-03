@@ -264,10 +264,11 @@ def submit_contact():
         # Send emails (don't let email failure break the submission)
         email_status = "not sent"
         try:
-            if send_client_email(contact_data):
-                email_status = "sent to client"
-            if send_admin_notification(contact_data):
-                email_status = "sent to both"
+            # if send_client_email(contact_data):
+            #     email_status = "sent to client"
+            # if send_admin_notification(contact_data):
+            #     email_status = "sent to both"
+            print("Email sending temporarily disabled")
         except Exception as email_error:
             print(f"⚠ Email error (non-critical): {str(email_error)}")
             email_status = "failed"
