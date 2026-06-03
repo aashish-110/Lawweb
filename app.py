@@ -265,7 +265,7 @@ def submit_contact():
         email_status = "not sent"
         try:
             # if send_client_email(contact_data):
-            #     email_status = "sent to client"
+            #     email_status = "sent to client".  this has to be changed while doing on another
             # if send_admin_notification(contact_data):
             #     email_status = "sent to both"
             print("Email sending temporarily disabled")
@@ -368,31 +368,34 @@ def submit_review():
         print(f"✓ Review saved to database (ID: {review.id}) - Status: Pending")
         
         # Send admin notification (non-blocking)
-        try:
-            msg = Message(
-                subject=f'New Review Submission - {name} ({rating_int} ⭐)',
-                recipients=[app.config['MAIL_USERNAME']],
-                sender=app.config['MAIL_DEFAULT_SENDER']
-            )
-            msg.body = f"""
-New Review Submitted (Pending Approval)
+#         try:
+#             msg = Message(
+#                 subject=f'New Review Submission - {name} ({rating_int} ⭐)',
+#                 recipients=[app.config['MAIL_USERNAME']],
+#                 sender=app.config['MAIL_DEFAULT_SENDER']
+#             )
+#             msg.body = f"""
+# New Review Submitted (Pending Approval)
 
-Name: {name}
-Email: {email}
-Rating: {rating_int} stars
-Service: {service}
+# Name: {name}
+# Email: {email}
+# Rating: {rating_int} stars
+# Service: {service}
 
-Review:
-{message}
+# Review:
+# {message}
 
----
-Submitted at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-Review in admin panel: http://127.0.0.1:5000/admin/reviews
-            """
-            mail.send(msg)
-            print("✓ Admin notification sent")
-        except Exception as e:
-            print(f"⚠ Email error (non-critical): {str(e)}")
+# ---
+# Submitted at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+# Review in admin panel: http://127.0.0.1:5000/admin/reviews
+#             """
+#             mail.send(msg)
+#             print("✓ Admin notification sent")
+#         except Exception as e:
+#             print(f"⚠ Email error (non-critical): {str(e)}")
+
+# Email temporarily disabled
+        print("Review email notification disabled") #this has to be removed 
         
         return jsonify({
             'success': True,
